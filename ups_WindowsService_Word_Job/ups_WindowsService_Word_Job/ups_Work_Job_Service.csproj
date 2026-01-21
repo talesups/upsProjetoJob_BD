@@ -56,5 +56,19 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ups_Common\ups_Common.csproj">
+      <Project>{32f9b630-d94a-4cef-8933-caf9464e409b}</Project>
+      <Name>ups_Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ups_DAO\ups_DAO.csproj">
+      <Project>{7ae3a73d-eb26-4780-8a65-65c27a14c8ad}</Project>
+      <Name>ups_DAO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ups_Entities\ups_Entities.csproj">
+      <Project>{23730a0c-c19b-44b8-bc4f-6708440b542a}</Project>
+      <Name>ups_Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

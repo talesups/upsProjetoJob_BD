@@ -19,6 +19,11 @@ namespace ups_Work_Job_API
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            // JSON
+            var json = config.Formatters.JsonFormatter;
+            json.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+
         }
     }
 }
