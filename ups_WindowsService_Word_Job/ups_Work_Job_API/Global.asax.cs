@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-using System.Web.Security;
-using System.Web.SessionState;
 using System.Web.Http;
 
 namespace ups_Work_Job_API
@@ -15,9 +9,9 @@ namespace ups_Work_Job_API
         void Application_Start(object sender, EventArgs e)
         {
             // Código que é executado na inicialização do aplicativo
-            AreaRegistration.RegisterAllAreas();
+            //AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);            
+            //RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
     }
 }

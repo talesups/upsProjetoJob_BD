@@ -3,12 +3,24 @@ namespace ups_Common
 {
     public class OperationResult<T>
     {
+
+        #region <<<< MÉTODOS PÚBLICOS >>>>
+
         public bool Success { get; set; }
 
         public T Data { get; set; }
 
         public string Error { get; set; }
 
+        /// <summary>
+        /// Preenchimento de gets e sets das classes com sucesso 
+        /// </summary>
+        /// <param name="ClassName"></param>
+        /// <returns>OperationResult</returns>
+        /// <remarks>
+        /// Created By: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public static OperationResult<T> Ok(T data) =>
             new OperationResult<T>
             {
@@ -16,11 +28,23 @@ namespace ups_Common
                 Data = data
             };
 
+
+        /// <summary>
+        /// Preenchimento de gets e sets das classes com falha
+        /// </summary>
+        /// <param name="ClassName"></param>
+        /// <returns>OperationResult</returns>
+        /// <remarks>
+        /// Created By: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public static OperationResult<T> Fail(string error) =>
             new OperationResult<T>
             {
                 Success = false,
                 Error = error
             };
+        #endregion
     }
+
 }

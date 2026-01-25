@@ -10,6 +10,17 @@ namespace ups_DAO
 {
     public class JobSchedulesDao
     {
+        #region <<<< MÉTODOS PRIVADOS >>>>
+
+        /// <summary>
+        /// Método de cálculo de período de tempo para novos processamento job
+        /// </summary>
+        /// <param name="JobSchedule"></param>
+        /// <returns name="JobSchedule"></returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         private JobSchedule Map(SqlDataReader r) =>
             new JobSchedule
             {
@@ -49,7 +60,20 @@ namespace ups_DAO
                     ? (DateTime?)null
                     : r.GetDateTime(r.GetOrdinal("LastEvaluatedUtc"))
             };
+        #endregion
 
+
+        #region <<<< MÉTODOS PÚBLICOS >>>>
+
+        /// <summary>
+        /// Métodos de consulta de agenda de jobs a serem executados
+        /// </summary>
+        /// <param name="utcNow"></param>
+        /// <returns nam="JobSchedule"></returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public IEnumerable<JobSchedule> GetDue(DateTime utcNow)
         {
             var list = new List<JobSchedule>();
@@ -71,6 +95,14 @@ namespace ups_DAO
             return list;
         }
 
+        /// <summary>
+        /// Método de consulta de job pelo id
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public IEnumerable<JobSchedule> GetByJobId(int jobId)
         {
             var list = new List<JobSchedule>();
@@ -91,6 +123,16 @@ namespace ups_DAO
             return list;
         }
 
+        /// <summary>
+        /// Método de alteração de próxima execução da agenda de jobs
+        /// </summary>
+        /// <param name="scheduleId"></param>
+        /// <param name="nextRunUtc"></param>
+        /// <param name="evalUtc"></param>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public void UpdateNextRunAndEval(int scheduleId, DateTime? nextRunUtc, DateTime evalUtc)
         {
             using (var conn = Db.CreateConnection())
@@ -109,5 +151,6 @@ namespace ups_DAO
                 cmd.ExecuteNonQuery();
             }
         }
+        #endregion
     }
 }

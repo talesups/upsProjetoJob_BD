@@ -10,6 +10,17 @@ namespace ups_DAO
 {
     public class JobsDao
     {
+        #region <<<< MÉTODOS PRIVADOS >>>>
+
+        /// <summary>
+        /// Método de mapeamento de dados do job
+        /// </summary>
+        /// <param name="Job"></param>
+        /// <returns name="Job"></returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         private Job Map(SqlDataReader r) =>
             new Job
             {
@@ -22,7 +33,18 @@ namespace ups_DAO
                 LastRunStatus = r.IsDBNull(r.GetOrdinal("LastRunStatus")) ? null : r.GetString(r.GetOrdinal("LastRunStatus")),
                 LastRunUtc = r.IsDBNull(r.GetOrdinal("LastRunUtc")) ? (DateTime?)null : r.GetDateTime(r.GetOrdinal("LastRunUtc"))
             };
+        #endregion
 
+        #region <<<< MÉTODOS PÚBLICOS >>>>
+
+        /// <summary>
+        /// Método de consulta de todos jobs cadastrados
+        /// </summary>
+        /// <returns>ValueObject</returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public IEnumerable<Job> GetAll()
         {
             var list = new List<Job>();
@@ -40,6 +62,15 @@ namespace ups_DAO
             return list;
         }
 
+        /// <summary>
+        /// Método de consulta de job pelo ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Job</returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public Job GetById(int id)
         {
             using (var conn = Db.CreateConnection())
@@ -54,6 +85,15 @@ namespace ups_DAO
             }
         }
 
+        /// <summary>
+        /// Método de inclusão de jobs a serem executados
+        /// </summary>
+        /// <param name="job"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public int Insert(Job job)
         {
             using (var conn = Db.CreateConnection())
@@ -75,6 +115,15 @@ namespace ups_DAO
             }
         }
 
+        /// <summary>
+        /// Métodos de alteração de jobs a serem executados
+        /// </summary>
+        /// <param name="job"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public void Update(Job job)
         {
             using (var conn = Db.CreateConnection())
@@ -96,6 +145,15 @@ namespace ups_DAO
             }
         }
 
+        /// <summary>
+        /// Métodos de exclusão de jobs a serem executados
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public void Delete(int id)
         {
             using (var conn = Db.CreateConnection())
@@ -109,6 +167,17 @@ namespace ups_DAO
             }
         }
 
+        /// <summary>
+        /// Métodos de altaração de jobs a serem executados
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <param name="status"></param>
+        /// <param name="lastRunUtc"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public void UpdateLastRun(int jobId, string status, DateTime? lastRunUtc)
         {
             using (var conn = Db.CreateConnection())
@@ -123,5 +192,6 @@ namespace ups_DAO
                 cmd.ExecuteNonQuery();
             }
         }
+        #endregion
     }
 }

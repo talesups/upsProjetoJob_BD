@@ -1,19 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
+using Swashbuckle.Application;
 
 namespace ups_Work_Job_API
 {
     public static class WebApiConfig
     {
+        //public static void Register(HttpConfiguration config)
+        //{
+        //    // Serviços e configuração da API da Web
+
+        //    // Rotas da API da Web
+        //    config.MapHttpAttributeRoutes();
+
+        //    config.Routes.MapHttpRoute(
+        //        name: "DefaultApi",
+        //        routeTemplate: "api/{controller}/{id}",
+        //        defaults: new { id = RouteParameter.Optional }
+        //    );
+
+        //    // JSON
+        //    var json = config.Formatters.JsonFormatter;
+        //    json.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+
+        //}
+
         public static void Register(HttpConfiguration config)
         {
-            // Serviços e configuração da API da Web
-
-            // Rotas da API da Web
+            // Rotas Web API
             config.MapHttpAttributeRoutes();
-
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
@@ -24,6 +38,12 @@ namespace ups_Work_Job_API
             var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 
+            ////Swagger: registrar apenas uma vez
+            //config.EnableSwagger(c =>
+            //{
+            //    c.SingleApiVersion("v31", "ups_Work_Job_API");
+            //})
+            //.EnableSwaggerUi();
         }
     }
-}
+    }

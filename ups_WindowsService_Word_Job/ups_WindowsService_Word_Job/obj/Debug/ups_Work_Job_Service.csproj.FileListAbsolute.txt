@@ -1,2 +1,15 @@
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\bin\Debug\ups_WindowsService_Word_Job.exe.config
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\bin\Debug\ups_WindowsService_Word_Job.exe
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\bin\Debug\ups_WindowsService_Word_Job.pdb
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\bin\Debug\ups_Common.dll
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\bin\Debug\ups_DAO.dll
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\bin\Debug\ups_Entities.dll
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\bin\Debug\ups_Common.pdb
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\bin\Debug\ups_DAO.pdb
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\bin\Debug\ups_DAO.dll.config
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\bin\Debug\ups_Entities.pdb
 C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\obj\Debug\ups_Work_Job_Service.csproj.AssemblyReference.cache
 C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\obj\Debug\ups_Work_Job_Service.csproj.CoreCompileInputs.cache
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\obj\Debug\ups_Work_Job_Service.csproj.CopyComplete
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\obj\Debug\ups_WindowsService_Word_Job.exe
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_WindowsService_Word_Job\obj\Debug\ups_WindowsService_Word_Job.pdb

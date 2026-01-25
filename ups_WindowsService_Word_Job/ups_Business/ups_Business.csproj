@@ -41,9 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JobsService.cs" />
+    <Compile Include="JobsServiceBO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SchedulerService.cs" />
+    <Compile Include="SchedulerServiceBO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

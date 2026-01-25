@@ -9,6 +9,18 @@ namespace ups_DAO
 {
     public class JobRunHistoryDao
     {
+        #region <<<< MÉTODOS PÚBLICOS >>>>
+
+        /// <summary>
+        /// Métodos de persistência de dados para o hitórico do JOB inclusão e alteração
+        /// </summary>
+        /// <param name="JobRunHistory"></param>
+        /// <returns>
+        /// </returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public long Insert(JobRunHistory h)
         {
             using (var conn = Db.CreateConnection())
@@ -58,4 +70,5 @@ namespace ups_DAO
             }
         }
     }
+    #endregion
 }
