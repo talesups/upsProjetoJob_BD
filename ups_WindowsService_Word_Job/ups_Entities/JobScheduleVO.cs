@@ -3,7 +3,7 @@ using System;
 
 namespace ups_Entities
 {
-    public class JobSchedule
+    public class JobScheduleVO
     {
         public int ScheduleId { get; set; }
 

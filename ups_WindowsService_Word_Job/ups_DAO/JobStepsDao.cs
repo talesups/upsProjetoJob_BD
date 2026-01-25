@@ -9,8 +9,19 @@ namespace ups_DAO
 {
     public class JobStepsDao
     {
-        private JobStep Map(SqlDataReader r) =>
-            new JobStep
+        #region <<<< MÉTODOS PRIVADOS >>>>
+
+        /// <summary>
+        /// Método de mapeamento de dados do job
+        /// </summary>
+        /// <param name="r"></param>
+        /// <returns name="Job"></returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
+        private JobStepVO Map(SqlDataReader r) =>
+            new JobStepVO
             {
                 StepId = r.GetInt32(r.GetOrdinal("StepId")),
                 JobId = r.GetInt32(r.GetOrdinal("JobId")),
@@ -20,10 +31,22 @@ namespace ups_DAO
                     ? (int?)null
                     : r.GetInt32(r.GetOrdinal("TimeoutSec"))
             };
+        #endregion
 
-        public IEnumerable<JobStep> GetByJobId(int jobId)
+        #region <<<< MÉTODOS PÚBLICOS >>>>
+
+        /// <summary>
+        /// Método de consulta de jobStep por ID
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
+        public IEnumerable<JobStepVO> GetByJobId(int jobId)
         {
-            var list = new List<JobStep>();
+            var list = new List<JobStepVO>();
 
             using (var conn = Db.CreateConnection())
             using (var cmd = new SqlCommand(
@@ -41,5 +64,6 @@ namespace ups_DAO
 
             return list;
         }
+        #endregion
     }
 }

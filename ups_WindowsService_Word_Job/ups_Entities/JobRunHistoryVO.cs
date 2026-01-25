@@ -1,7 +1,7 @@
 ﻿
 namespace ups_Entities
 {
-    public class JobRunHistory
+    public class JobRunHistoryVO
     {
         public long RunId { get; set; }
 

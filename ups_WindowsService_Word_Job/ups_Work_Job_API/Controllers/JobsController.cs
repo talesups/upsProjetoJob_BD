@@ -27,7 +27,7 @@ namespace ups_Work_Job_API.Controllers
 
         // POST api/jobs
         [HttpPost, Route("")]
-        public IHttpActionResult Create([FromBody] Job job)
+        public IHttpActionResult Create([FromBody] JobVO job)
         {
             var res = _service.Create(job);
 
@@ -39,7 +39,7 @@ namespace ups_Work_Job_API.Controllers
 
         // PUT api/jobs/5
         [HttpPut, Route("{id:int}")]
-        public IHttpActionResult Update(int id, [FromBody] Job job)
+        public IHttpActionResult Update(int id, [FromBody] JobVO job)
         {
             job.JobId = id;
             var res = _service.Update(job);

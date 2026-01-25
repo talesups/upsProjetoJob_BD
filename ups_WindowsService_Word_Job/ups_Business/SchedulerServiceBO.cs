@@ -9,14 +9,6 @@ namespace ups_Business
     public class SchedulerServiceBO
     {
         #region <<<< MÉTODOS PRIVADOS >>>>
-
-        /// <summary>
-        /// Método que inicia as objetos para utilização na classe
-        /// </summary>
-        /// <remarks>
-        /// Created By: Silva, André
-        /// Created Date: 26 01 2026
-        /// </remarks>
         private readonly JobSchedulesDao _dao = new JobSchedulesDao();
         #endregion
 
@@ -50,7 +42,7 @@ namespace ups_Business
         /// Created By: Silva, Andre
         /// Created Date: 26 01 2026
         /// </remarks>
-        public DateTime? ComputeNextRunUtc(JobSchedule sch, DateTime utcNow)
+        public DateTime? ComputeNextRunUtc(JobScheduleVO sch, DateTime utcNow)
         {
             if (sch.EndDateUtc.HasValue && utcNow > sch.EndDateUtc.Value)
                 return null;

@@ -1,7 +1,7 @@
 ﻿
 namespace ups_Entities
 {
-    public class Job
+    public class JobVO
     {
         public int JobId { get; set; }
 

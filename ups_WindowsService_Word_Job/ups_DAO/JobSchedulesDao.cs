@@ -15,14 +15,14 @@ namespace ups_DAO
         /// <summary>
         /// Método de cálculo de período de tempo para novos processamento job
         /// </summary>
-        /// <param name="JobSchedule"></param>
+        /// <param name="r"></param>
         /// <returns name="JobSchedule"></returns>
         /// <remarks>
         /// Created by: Silva, André
         /// Created Date: 26 01 2026
         /// </remarks>
-        private JobSchedule Map(SqlDataReader r) =>
-            new JobSchedule
+        private JobScheduleVO Map(SqlDataReader r) =>
+            new JobScheduleVO
             {
                 ScheduleId = r.GetInt32(r.GetOrdinal("ScheduleId")),
                 JobId = r.GetInt32(r.GetOrdinal("JobId")),
@@ -74,9 +74,9 @@ namespace ups_DAO
         /// Created by: Silva, André
         /// Created Date: 26 01 2026
         /// </remarks>
-        public IEnumerable<JobSchedule> GetDue(DateTime utcNow)
+        public IEnumerable<JobScheduleVO> GetDue(DateTime utcNow)
         {
-            var list = new List<JobSchedule>();
+            var list = new List<JobScheduleVO>();
 
             using (var conn = Db.CreateConnection())
             using (var cmd = new SqlCommand(
@@ -103,9 +103,9 @@ namespace ups_DAO
         /// Created by: Silva, André
         /// Created Date: 26 01 2026
         /// </remarks>
-        public IEnumerable<JobSchedule> GetByJobId(int jobId)
+        public IEnumerable<JobScheduleVO> GetByJobId(int jobId)
         {
-            var list = new List<JobSchedule>();
+            var list = new List<JobScheduleVO>();
 
             using (var conn = Db.CreateConnection())
             using (var cmd = new SqlCommand(

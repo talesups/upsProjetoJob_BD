@@ -13,14 +13,7 @@ namespace ups_Business
     public class JobsServiceBO
     {
         #region <<<< MÉTODOS PRIVADOS >>>>
-
-        /// <summary>
-        /// Método que inicia as objetos para utilização na classe
-        /// </summary>
-        /// <remarks>
-        /// Created By: Silva, André
-        /// Created Date: 23 01 2026
-        /// </remarks>
+        
         private readonly JobsDao _jobsDao = new JobsDao();
         private readonly JobStepsDao _stepsDao = new JobStepsDao();
         private readonly JobRunHistoryDao _historyDao = new JobRunHistoryDao();
@@ -28,9 +21,9 @@ namespace ups_Business
 
         #region <<<< MÉTODOS PÚBLICOS >>>>
 
-        public IEnumerable<Job> GetAll() => _jobsDao.GetAll();
+        public IEnumerable<JobVO> GetAll() => _jobsDao.GetAll();
 
-        public Job GetById(int id) => _jobsDao.GetById(id);
+        public JobVO GetById(int id) => _jobsDao.GetById(id);
 
         /// <summary>
         /// Método que valida regras de validação dos Jobs de serviço, para creação
@@ -42,19 +35,19 @@ namespace ups_Business
         /// Created by: Silva, André
         /// Created Date: 26 01 2026
         /// </remarks>
-        public OperationResult<Job> Create(Job job)
+        public OperationResult<JobVO> Create(JobVO job)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(job.Name))
-                    return OperationResult<Job>.Fail("Nome é obrigatório.");
+                    return OperationResult<JobVO>.Fail("Nome é obrigatório.");
 
                 job.JobId = _jobsDao.Insert(job);
-                return OperationResult<Job>.Ok(job);
+                return OperationResult<JobVO>.Ok(job);
             }
             catch (Exception ex)
             {
-                return OperationResult<Job>.Fail(ex.Message);
+                return OperationResult<JobVO>.Fail(ex.Message);
             }
         }
 
@@ -68,7 +61,7 @@ namespace ups_Business
         /// Created by: Silva, André
         /// Created Date: 26 01 2026
         /// </remarks>
-        public OperationResult<bool> Update(Job job)
+        public OperationResult<bool> Update(JobVO job)
         {
             try
             {
@@ -122,7 +115,7 @@ namespace ups_Business
                 return OperationResult<bool>.Fail("Job não encontrado.");
 
             var host = Dns.GetHostName();
-            var run = new JobRunHistory
+            var run = new JobRunHistoryVO
             {
                 JobId = jobId,
                 StartedUtc = DateTime.UtcNow,

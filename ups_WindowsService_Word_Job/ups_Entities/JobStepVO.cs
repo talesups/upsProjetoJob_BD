@@ -1,7 +1,7 @@
 ﻿
 namespace ups_Entities
 {
-    public class JobStep
+    public class JobStepVO
     {
         public int StepId { get; set; }
 

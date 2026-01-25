@@ -15,14 +15,14 @@ namespace ups_DAO
         /// <summary>
         /// Método de mapeamento de dados do job
         /// </summary>
-        /// <param name="Job"></param>
+        /// <param name="r"></param>
         /// <returns name="Job"></returns>
         /// <remarks>
         /// Created by: Silva, André
         /// Created Date: 26 01 2026
         /// </remarks>
-        private Job Map(SqlDataReader r) =>
-            new Job
+        private JobVO Map(SqlDataReader r) =>
+            new JobVO
             {
                 JobId = r.GetInt32(r.GetOrdinal("JobId")),
                 Name = r.GetString(r.GetOrdinal("Name")),
@@ -45,9 +45,9 @@ namespace ups_DAO
         /// Created by: Silva, André
         /// Created Date: 26 01 2026
         /// </remarks>
-        public IEnumerable<Job> GetAll()
+        public IEnumerable<JobVO> GetAll()
         {
-            var list = new List<Job>();
+            var list = new List<JobVO>();
 
             using (var conn = Db.CreateConnection())
             using (var cmd = new SqlCommand(
@@ -71,7 +71,7 @@ namespace ups_DAO
         /// Created by: Silva, André
         /// Created Date: 26 01 2026
         /// </remarks>
-        public Job GetById(int id)
+        public JobVO GetById(int id)
         {
             using (var conn = Db.CreateConnection())
             using (var cmd = new SqlCommand(
@@ -94,7 +94,7 @@ namespace ups_DAO
         /// Created by: Silva, André
         /// Created Date: 26 01 2026
         /// </remarks>
-        public int Insert(Job job)
+        public int Insert(JobVO job)
         {
             using (var conn = Db.CreateConnection())
             using (var cmd = new SqlCommand(
@@ -124,7 +124,7 @@ namespace ups_DAO
         /// Created by: Silva, André
         /// Created Date: 26 01 2026
         /// </remarks>
-        public void Update(Job job)
+        public void Update(JobVO job)
         {
             using (var conn = Db.CreateConnection())
             using (var cmd = new SqlCommand(

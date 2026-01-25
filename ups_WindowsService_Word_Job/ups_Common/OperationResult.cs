@@ -15,7 +15,7 @@ namespace ups_Common
         /// <summary>
         /// Preenchimento de gets e sets das classes com sucesso 
         /// </summary>
-        /// <param name="ClassName"></param>
+        /// <param name="data"></param>
         /// <returns>OperationResult</returns>
         /// <remarks>
         /// Created By: Silva, André
@@ -32,7 +32,7 @@ namespace ups_Common
         /// <summary>
         /// Preenchimento de gets e sets das classes com falha
         /// </summary>
-        /// <param name="ClassName"></param>
+        /// <param name="error"></param>
         /// <returns>OperationResult</returns>
         /// <remarks>
         /// Created By: Silva, André

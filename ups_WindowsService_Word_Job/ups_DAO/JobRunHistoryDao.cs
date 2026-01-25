@@ -12,16 +12,16 @@ namespace ups_DAO
         #region <<<< MÉTODOS PÚBLICOS >>>>
 
         /// <summary>
-        /// Métodos de persistência de dados para o hitórico do JOB inclusão e alteração
+        /// Método de persistência de dados para o hitórico do JOB inclusão 
         /// </summary>
-        /// <param name="JobRunHistory"></param>
+        /// <param name="h"></param>
         /// <returns>
         /// </returns>
         /// <remarks>
         /// Created by: Silva, André
         /// Created Date: 26 01 2026
         /// </remarks>
-        public long Insert(JobRunHistory h)
+        public long Insert(JobRunHistoryVO h)
         {
             using (var conn = Db.CreateConnection())
             using (var cmd = new SqlCommand(
@@ -48,6 +48,19 @@ namespace ups_DAO
             }
         }
 
+        /// <summary>
+        /// Método de persistência de dados para o hitórico do JOB inclusão 
+        /// </summary>
+        /// <param name="runId"></param>
+        /// <param name="finishedUtc"></param>
+        /// <param name="message"></param>
+        /// <param name="status"></param>
+        /// <returns>
+        /// </returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public void Mark(long runId, string status, DateTime? finishedUtc, string message)
         {
             using (var conn = Db.CreateConnection())
