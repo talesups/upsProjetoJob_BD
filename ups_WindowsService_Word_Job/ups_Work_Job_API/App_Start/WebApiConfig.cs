@@ -5,25 +5,18 @@ namespace ups_Work_Job_API
 {
     public static class WebApiConfig
     {
-        //public static void Register(HttpConfiguration config)
-        //{
-        //    // Serviços e configuração da API da Web
 
-        //    // Rotas da API da Web
-        //    config.MapHttpAttributeRoutes();
+        #region <<<< MÉTODOS PÚBLICOS >>>>
 
-        //    config.Routes.MapHttpRoute(
-        //        name: "DefaultApi",
-        //        routeTemplate: "api/{controller}/{id}",
-        //        defaults: new { id = RouteParameter.Optional }
-        //    );
-
-        //    // JSON
-        //    var json = config.Formatters.JsonFormatter;
-        //    json.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-
-        //}
-
+        /// <summary>
+        /// Método de registro da aplicação
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public static void Register(HttpConfiguration config)
         {
             // Rotas Web API
@@ -37,13 +30,7 @@ namespace ups_Work_Job_API
             // JSON
             var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-
-            ////Swagger: registrar apenas uma vez
-            //config.EnableSwagger(c =>
-            //{
-            //    c.SingleApiVersion("v31", "ups_Work_Job_API");
-            //})
-            //.EnableSwaggerUi();
         }
+        #endregion
     }
-    }
+}

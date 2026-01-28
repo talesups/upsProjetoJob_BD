@@ -7,6 +7,8 @@ using System.Net;
 using ups_Common;
 using ups_DAO;
 using ups_Entities;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace ups_Business
 {
@@ -159,6 +161,50 @@ namespace ups_Business
                 }
             }
         }
+
+        /// <summary>
+        /// Executa um Job (por JobId) com retry/backoff simples.
+        /// Retorna true em caso de sucesso geral.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <param name="maxRetries"></param>
+        /// <param name="retryDelaySec"></param>
+        /// <returns>
+        /// </returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
+        public async Task<bool> RunJobSync(int jobId, int maxRetries, int retryDelaySec)
+        {
+            int attempt = 0;
+            Exception last = null;
+
+            do
+            {
+                try
+                {
+                    // TODO: recuperar steps do job, executar cada step (T-SQL) em ordem,
+                    // gravar JobRunHistory (start/end/status), etc.
+                    // Mantive assíncrono para não travar o loop, mas as execuções podem ser síncronas ADO.NET.
+                    Trace.TraceInformation($"[JOB {jobId}] Execução tentativa #{attempt + 1}...");
+                    await Task.Run(() => { /* Execute steps aqui (DAO). */ });
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    last = ex;
+                    Trace.TraceError($"[JOB {jobId}] Falha tentativa #{attempt + 1}: {ex.Message}");
+                    if (attempt < maxRetries)
+                        await Task.Delay(TimeSpan.FromSeconds(Math.Max(1, retryDelaySec)));
+                }
+                attempt++;
+            } while (attempt <= maxRetries);
+
+            Trace.TraceError($"[JOB {jobId}] Falhou após {attempt} tentativas. Último erro: {last}");
+            return false;
+        }
+
         #endregion
     }
 }

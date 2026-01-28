@@ -9,6 +9,17 @@ namespace ups_Work_Job_API
 {
     public class SwaggerConfig
     {
+
+        #region <<<< MÉTODOS PÚBLICOS >>>>
+
+        /// <summary>
+        /// Método de registro do swagger
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// Created by: Silva, André
+        /// Created Date: 26 01 2026
+        /// </remarks>
         public static void Register()
         {
             var thisAssembly = typeof(SwaggerConfig).Assembly;
@@ -251,5 +262,6 @@ namespace ups_Work_Job_API
                         //c.EnableApiKeySupport("apiKey", "header");
                     });
         }
+        #endregion
     }
 }

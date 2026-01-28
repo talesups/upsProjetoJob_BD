@@ -38,6 +38,8 @@ namespace ups_Common
 
         #region <<<< MÉTODOS PÚBLICOS >>>>
 
+        public const int DefaultCommandTimeoutSec = 30;
+
         /// <summary>
         /// Fábrica de conexões SQL centralizada.
         /// Uso: using (var conn = Db.CreateConnection()) { ... }
@@ -64,6 +66,24 @@ namespace ups_Common
                 throw new ArgumentException("Nome de conexão inválido.", nameof(connectionName));
 
             var cs = GetConnectionString(connectionName);
+            return new SqlConnection(cs);
+        }
+
+        /// <summary>
+        /// Cria uma SqlConnection usando o nome da connectionString informado.
+        /// </summary>
+        /// <param name="connName">Nome da connectionString no config.</param>
+        /// <remarks>
+        /// Created By: Silva, Andre
+        /// Created Date: 23 01 2024
+        /// </remarks>
+        public static SqlConnection GetConnection(string connName)
+        {
+            string name = string.IsNullOrWhiteSpace(connName)
+                ? (ConfigurationManager.AppSettings["DbConnName"] ?? "SqlServer")
+                : connName;
+
+            var cs = ConfigurationManager.ConnectionStrings[name]?.ConnectionString;
             return new SqlConnection(cs);
         }
         #endregion

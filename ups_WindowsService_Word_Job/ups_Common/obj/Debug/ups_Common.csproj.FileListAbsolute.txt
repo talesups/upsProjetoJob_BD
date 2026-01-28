@@ -1,6 +1,0 @@
-C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_Common\bin\Debug\ups_Common.dll
-C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_Common\bin\Debug\ups_Common.pdb
-C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_Common\obj\Debug\ups_Common.csproj.AssemblyReference.cache
-C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_Common\obj\Debug\ups_Common.csproj.CoreCompileInputs.cache
-C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_Common\obj\Debug\ups_Common.dll
-C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_Common\obj\Debug\ups_Common.pdb

@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Scheduler.cs" />
     <Compile Include="Service1.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -52,11 +54,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UpsWindowsServiceWordJob.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ups_Business\ups_Business.csproj">
+      <Project>{5155f4d1-45a0-4513-a1dd-86adea17416e}</Project>
+      <Name>ups_Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ups_Common\ups_Common.csproj">
       <Project>{32f9b630-d94a-4cef-8933-caf9464e409b}</Project>
       <Name>ups_Common</Name>

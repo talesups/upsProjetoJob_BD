@@ -9,7 +9,7 @@ namespace ups_Business
     public class SchedulerServiceBO
     {
         #region <<<< MÉTODOS PRIVADOS >>>>
-        private readonly JobSchedulesDao _dao = new JobSchedulesDao();
+        private readonly JobSchedulesDao _dao = new JobSchedulesDao("SqlServer");
         #endregion
 
         #region <<<< MÉTODOS PÚBLICOS >>>>
