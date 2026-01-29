@@ -1,0 +1,2 @@
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_Work_Job_API\obj\Debug\ups_Work_Job_API.csproj.AssemblyReference.cache
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_Work_Job_API\obj\Debug\ups_Work_Job_API.csproj.CoreCompileInputs.cache

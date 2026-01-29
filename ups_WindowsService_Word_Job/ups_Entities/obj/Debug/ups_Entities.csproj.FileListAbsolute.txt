@@ -1,0 +1,5 @@
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_Entities\bin\Debug\ups_Entities.dll
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_Entities\bin\Debug\ups_Entities.pdb
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_Entities\obj\Debug\ups_Entities.csproj.CoreCompileInputs.cache
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_Entities\obj\Debug\ups_Entities.dll
+C:\ProgramData\DDrive\github-ups\upsProjetoJob_BD\ups_WindowsService_Word_Job\ups_Entities\obj\Debug\ups_Entities.pdb

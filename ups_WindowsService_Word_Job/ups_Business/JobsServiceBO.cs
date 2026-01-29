@@ -19,6 +19,7 @@ namespace ups_Business
         private readonly JobsDao _jobsDao = new JobsDao();
         private readonly JobStepsDao _stepsDao = new JobStepsDao();
         private readonly JobRunHistoryDao _historyDao = new JobRunHistoryDao();
+
         #endregion
 
         #region <<<< MÉTODOS PÚBLICOS >>>>
@@ -120,7 +121,7 @@ namespace ups_Business
             var run = new JobRunHistoryVO
             {
                 JobId = jobId,
-                StartedUtc = DateTime.UtcNow,
+                StartedUtc = DateTime.Now,
                 Status = "Running",
                 HostName = host
             };
@@ -147,15 +148,15 @@ namespace ups_Business
                         }
 
                         tx.Commit();
-                        _historyDao.Mark(runId, "Success", DateTime.UtcNow, "Execução concluída.");
-                        _jobsDao.UpdateLastRun(jobId, "Success", DateTime.UtcNow);
+                        _historyDao.Mark(runId, "Success", DateTime.Now, "Execução concluída.");
+                        _jobsDao.UpdateLastRun(jobId, "Success", DateTime.Now);
                         return OperationResult<bool>.Ok(true);
                     }
                     catch (Exception ex)
                     {
                         tx.Rollback();
-                        _historyDao.Mark(runId, "Failed", DateTime.UtcNow, ex.Message);
-                        _jobsDao.UpdateLastRun(jobId, "Failed", DateTime.UtcNow);
+                        _historyDao.Mark(runId, "Failed", DateTime.Now, ex.Message);
+                        _jobsDao.UpdateLastRun(jobId, "Failed", DateTime.Now);
                         return OperationResult<bool>.Fail("Falha na execução: " + ex.Message);
                     }
                 }

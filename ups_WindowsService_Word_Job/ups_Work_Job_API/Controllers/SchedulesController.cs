@@ -10,7 +10,7 @@ namespace ups_Work_Job_API.Controllers
     public class SchedulesController : ApiController
     {
         private readonly SchedulerServiceBO _scheduler = new SchedulerServiceBO();
-        private readonly JobSchedulesDao _dao = new JobSchedulesDao();
+        private readonly JobSchedulesDao _dao = new JobSchedulesDao("SqlServer");
 
         // GET api/schedules/due
         [HttpGet, Route("due")]

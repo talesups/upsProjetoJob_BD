@@ -13,6 +13,66 @@ namespace ups_Business
 
         private static readonly JobSchedulesDao _dao = new JobSchedulesDao("");
 
+        private static int[] ParseDays(string csv) =>
+            string.IsNullOrWhiteSpace(csv) ? Array.Empty<int>()
+                                           : csv.Split(',').Select(s => int.Parse(s.Trim())).ToArray();
+
+        private static DateTime NextDaily(DateTime nowLocal, TimeSpan tod)
+        {
+            var candidate = new DateTime(nowLocal.Year, nowLocal.Month, nowLocal.Day).Add(tod);
+            return candidate <= nowLocal ? candidate.AddDays(1) : candidate;
+        }
+
+        private static DateTime NextWeekly(DateTime nowLocal, TimeSpan tod, int[] days)
+        {
+            for (int i = 0; i <= 7; i++)
+            {
+                var d = nowLocal.AddDays(i);
+                if (days.Contains((int)d.DayOfWeek))
+                {
+                    var candidate = new DateTime(d.Year, d.Month, d.Day).Add(tod);
+                    if (candidate > nowLocal) return candidate;
+                }
+            }
+            var nextWeek = nowLocal.AddDays(7);
+            return new DateTime(nextWeek.Year, nextWeek.Month, nextWeek.Day).Add(tod);
+        }
+
+        private static DateTime NextMonthly(DateTime nowLocal, int day, TimeSpan tod)
+        {
+            int y = nowLocal.Year, m = nowLocal.Month;
+            int dim = DateTime.DaysInMonth(y, m);
+            int d = Math.Min(day, dim);
+            var candidate = new DateTime(y, m, d).Add(tod);
+            if (candidate <= nowLocal)
+            {
+                m = m == 12 ? 1 : m + 1;
+                y = m == 1 ? y + 1 : y;
+                dim = DateTime.DaysInMonth(y, m);
+                d = Math.Min(day, dim);
+                candidate = new DateTime(y, m, d).Add(tod);
+            }
+            return candidate;
+        }
+
+        private static DateTime NextYearly(DateTime nowLocal, int month, int day, TimeSpan tod)
+        {
+            int y = nowLocal.Year;
+            int dim = DateTime.DaysInMonth(y, month);
+            int d = Math.Min(day, dim);
+            var candidate = new DateTime(y, month, d).Add(tod);
+            if (candidate <= nowLocal)
+            {
+                y += 1;
+                dim = DateTime.DaysInMonth(y, month);
+                d = Math.Min(day, dim);
+                candidate = new DateTime(y, month, d).Add(tod);
+            }
+            return candidate;
+        }
+
+        #endregion
+
         ///// <summary>
         ///// Calcula o próximo disparo em horário local (sem conversão de fuso/UTC).
         ///// </summary>
@@ -62,7 +122,6 @@ namespace ups_Business
 
         //    return nextLocal;
         //}
-    #endregion
 
 
         #region <<<< MÉTODOS PÚBLICOS >>>>
@@ -154,64 +213,5 @@ namespace ups_Business
         #endregion
 
 
-        #region Helpers
-        private static DateTime NextDaily(DateTime nowLocal, TimeSpan tod)
-        {
-            var candidate = new DateTime(nowLocal.Year, nowLocal.Month, nowLocal.Day).Add(tod);
-            return candidate <= nowLocal ? candidate.AddDays(1) : candidate;
-        }
-
-        private static DateTime NextWeekly(DateTime nowLocal, TimeSpan tod, int[] days)
-        {
-            for (int i = 0; i <= 7; i++)
-            {
-                var d = nowLocal.AddDays(i);
-                if (days.Contains((int)d.DayOfWeek))
-                {
-                    var candidate = new DateTime(d.Year, d.Month, d.Day).Add(tod);
-                    if (candidate > nowLocal) return candidate;
-                }
-            }
-            var nextWeek = nowLocal.AddDays(7);
-            return new DateTime(nextWeek.Year, nextWeek.Month, nextWeek.Day).Add(tod);
-        }
-
-        private static DateTime NextMonthly(DateTime nowLocal, int day, TimeSpan tod)
-        {
-            int y = nowLocal.Year, m = nowLocal.Month;
-            int dim = DateTime.DaysInMonth(y, m);
-            int d = Math.Min(day, dim);
-            var candidate = new DateTime(y, m, d).Add(tod);
-            if (candidate <= nowLocal)
-            {
-                m = m == 12 ? 1 : m + 1;
-                y = m == 1 ? y + 1 : y;
-                dim = DateTime.DaysInMonth(y, m);
-                d = Math.Min(day, dim);
-                candidate = new DateTime(y, m, d).Add(tod);
-            }
-            return candidate;
-        }
-
-        private static DateTime NextYearly(DateTime nowLocal, int month, int day, TimeSpan tod)
-        {
-            int y = nowLocal.Year;
-            int dim = DateTime.DaysInMonth(y, month);
-            int d = Math.Min(day, dim);
-            var candidate = new DateTime(y, month, d).Add(tod);
-            if (candidate <= nowLocal)
-            {
-                y += 1;
-                dim = DateTime.DaysInMonth(y, month);
-                d = Math.Min(day, dim);
-                candidate = new DateTime(y, month, d).Add(tod);
-            }
-            return candidate;
-        }
-
-        private static int[] ParseDays(string csv) =>
-            string.IsNullOrWhiteSpace(csv) ? Array.Empty<int>()
-                                           : csv.Split(',').Select(s => int.Parse(s.Trim())).ToArray();
-        #endregion
     }
 }

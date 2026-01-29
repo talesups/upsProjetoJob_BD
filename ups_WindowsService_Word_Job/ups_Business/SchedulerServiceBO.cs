@@ -17,18 +17,18 @@ namespace ups_Business
         /// <summary>
         /// Métodos que validam regras de validação dos sheduler de serviço
         /// </summary>
-        /// <param name="utcNow"></param>
+        /// <param name="now"></param>
         /// <returns>ValueObject</returns>
         /// <remarks>
         /// Created By: Silva, Andre
         /// Created Date: 26 01 2026
         /// </remarks>
-        public void EvaluateAndUpdateNextRuns(DateTime utcNow)
+        public void EvaluateAndUpdateNextRuns(DateTime now)
         {
-            foreach (var sch in _dao.GetDue(utcNow))
+            foreach (var sch in _dao.GetDue(now))
             {
-                var next = ComputeNextRunUtc(sch, utcNow);
-                _dao.UpdateNextRunAndEval(sch.ScheduleId, next, utcNow);
+                var next = ComputeNextRun(sch, now);
+                _dao.UpdateNextRunAndEval(sch.ScheduleId, next, now);
             }
         }
 
@@ -42,30 +42,32 @@ namespace ups_Business
         /// Created By: Silva, Andre
         /// Created Date: 26 01 2026
         /// </remarks>
-        public DateTime? ComputeNextRunUtc(JobScheduleVO sch, DateTime utcNow)
+        public DateTime? ComputeNextRun(JobScheduleVO sch, DateTime now)
         {
-            if (sch.EndDateUtc.HasValue && utcNow > sch.EndDateUtc.Value)
+            if (sch.EndDateUtc.HasValue && now > sch.EndDateUtc.Value)
                 return null;
 
             var timeOfDay = sch.TimeOfDay ?? TimeSpan.Zero;
 
             switch (sch.RecurrenceType)
             {
+
+                //// Aqui UTC provavelmente 
                 case RecurrenceType.Once:
-                    return (sch.FixedDateTimeUtc.HasValue && sch.FixedDateTimeUtc.Value > utcNow)
+                    return (sch.FixedDateTimeUtc.HasValue && sch.FixedDateTimeUtc.Value > now)
                         ? sch.FixedDateTimeUtc.Value
                         : (DateTime?)null;
 
                 case RecurrenceType.Minute:
-                    return utcNow.AddMinutes(sch.IntervalN.GetValueOrDefault(1));
+                    return now.AddMinutes(sch.IntervalN.GetValueOrDefault(1));
 
                 case RecurrenceType.Hour:
-                    return utcNow.AddHours(sch.IntervalN.GetValueOrDefault(1));
+                    return now.AddHours(sch.IntervalN.GetValueOrDefault(1));
 
                 case RecurrenceType.Daily:
                     {
                         int n = sch.IntervalN.GetValueOrDefault(1);
-                        var candidate = utcNow.Date.AddDays(n).Add(timeOfDay);
+                        var candidate = now.Date.AddDays(n).Add(timeOfDay);
                         if (sch.StartDateUtc.HasValue && candidate < sch.StartDateUtc.Value)
                             candidate = sch.StartDateUtc.Value.Date.Add(timeOfDay);
                         return candidate;
@@ -81,7 +83,7 @@ namespace ups_Business
 
                         if (days.Length == 0) return null;
 
-                        int today = (int)utcNow.DayOfWeek;
+                        int today = (int)now.DayOfWeek;
                         int nWeeks = sch.IntervalN.GetValueOrDefault(1);
 
                         for (int offset = 0; offset <= 7 * nWeeks; offset++)
@@ -89,12 +91,12 @@ namespace ups_Business
                             var d = (today + offset) % 7;
                             if (days.Contains(d))
                             {
-                                var candidate = utcNow.Date.AddDays(offset).Add(timeOfDay);
-                                if (candidate > utcNow) return candidate;
+                                var candidate = now.Date.AddDays(offset).Add(timeOfDay);
+                                if (candidate > now) return candidate;
                             }
                         }
 
-                        return utcNow.Date.AddDays(7 * nWeeks).Add(timeOfDay);
+                        return now.Date.AddDays(7 * nWeeks).Add(timeOfDay);
                     }
 
                 case RecurrenceType.Monthly:
@@ -102,13 +104,13 @@ namespace ups_Business
                         int n = sch.IntervalN.GetValueOrDefault(1);
                         byte day = sch.DayOfMonth.GetValueOrDefault(1);
 
-                        var nextMonth = new DateTime(utcNow.Year, utcNow.Month, 1, 0, 0, 0, DateTimeKind.Utc)
+                        var nextMonth = new DateTime(now.Year, now.Month, 1, 0, 0, 0, DateTimeKind.Local)
                             .AddMonths(n);
 
                         int dim = DateTime.DaysInMonth(nextMonth.Year, nextMonth.Month);
                         int d = Math.Min(day, (byte)dim);
 
-                        return new DateTime(nextMonth.Year, nextMonth.Month, d, 0, 0, 0, DateTimeKind.Utc)
+                        return new DateTime(nextMonth.Year, nextMonth.Month, d, 0, 0, 0, DateTimeKind.Local)
                             .Add(timeOfDay);
                     }
 
@@ -118,11 +120,11 @@ namespace ups_Business
                         byte month = sch.MonthOfYear.GetValueOrDefault(1);
                         byte day = sch.DayOfMonth.GetValueOrDefault(1);
 
-                        int targetYear = utcNow.Year + n;
+                        int targetYear = now.Year + n;
                         int dim = DateTime.DaysInMonth(targetYear, month);
                         int d = Math.Min(day, (byte)dim);
 
-                        return new DateTime(targetYear, month, d, 0, 0, 0, DateTimeKind.Utc)
+                        return new DateTime(targetYear, month, d, 0, 0, 0, DateTimeKind.Local)
                             .Add(timeOfDay);
                     }
 
