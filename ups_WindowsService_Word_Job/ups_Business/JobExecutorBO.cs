@@ -67,10 +67,12 @@ namespace ups_Business
         /// Created by: Silva, André
         /// Created Date: 26 01 2026
         /// </remarks>
-        private static bool ExecuteStepWithRetry(JobStepVO st, int maxRetries, int retryDelaySec)
+        private static bool ExecuteStepWithRetry(JobStepVO st, int maxRetries, int retryDelaySec, out string errorMessage)
         {
             int attempts = 0;
             var baseDelay = TimeSpan.FromSeconds(Math.Max(0, retryDelaySec));
+            Exception lastException = null;
+            errorMessage = string.Empty;
 
             while (true)
             {
@@ -84,10 +86,15 @@ namespace ups_Business
                         conn.Open();
                         cmd.ExecuteNonQuery();
                     }
+
+                    // Sucesso: limpar mensagem e sair
+                    errorMessage = string.Empty;
                     return true;
                 }
                 catch (SqlException ex) when (IsTransient(ex) && attempts < maxRetries)
                 {
+                    lastException = ex;
+
                     var delayMs = Math.Min(
                         baseDelay.TotalMilliseconds * Math.Pow(2, attempts - 1),
                         30000 // teto de 30s
@@ -99,14 +106,89 @@ namespace ups_Business
                         $"Tentativa {attempts}/{maxRetries}. Aguardando {delay.TotalSeconds:F1}s...");
 
                     System.Threading.Thread.Sleep(delay);
+                    // Continua o loop para nova tentativa
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceError($"Step {st.StepNo} (Job {st.JobId}) falhou: {ex}");
+                    // Exceção não-transiente ou qualquer outra falha no meio
+                    lastException = ex;
+
+                    var msg =
+                        $"Step {st.StepNo} (Job {st.JobId}) falhou na tentativa {attempts} de {maxRetries}. " +
+                        $"Erro: {ex.Message}";
+
+                    Trace.TraceError($"{msg}{Environment.NewLine}{ex}");
+
+                    errorMessage = msg;
+                    return false;
+                }
+
+                // Se chegou aqui, foi um erro transitório mas ainda há tentativas.
+                // Quando o loop recomeçar, tenta novamente.
+                // Caso acabe as tentativas, o while não dá return aqui e cai no bloco abaixo.
+                if (attempts < maxRetries)
+                {
+                    var finalMsg =
+                        $"Step {st.StepNo} (Job {st.JobId}) falhou após {attempts} tentativas. " +
+                        $"Último erro: {lastException?.Message}";
+
+                    Trace.TraceError($"{finalMsg}{Environment.NewLine}{lastException}");
+                    errorMessage = finalMsg;
                     return false;
                 }
             }
         }
+
+        //private static bool ExecuteStepWithRetry(JobStepVO st, int maxRetries, int retryDelaySec, out string errorMessag)
+        //{
+        //    int attempts = 0;
+        //    var baseDelay = TimeSpan.FromSeconds(Math.Max(0, retryDelaySec));
+
+        //    while (true)
+        //    {
+        //        attempts++;
+        //        try
+        //        {
+        //            using (var conn = new SqlConnection(GetConn()))
+        //            using (var cmd = new SqlCommand(st.Script, conn))
+        //            {
+        //                cmd.CommandTimeout = st.TimeoutSec ?? DefaultTimeout();
+        //                conn.Open();
+        //                cmd.ExecuteNonQuery();
+        //            }
+        //            errorMessag = "";
+        //            return true;
+        //        }
+        //        catch (SqlException ex) when (IsTransient(ex) && attempts < maxRetries)
+        //        {
+        //            var delayMs = Math.Min(
+        //                baseDelay.TotalMilliseconds * Math.Pow(2, attempts - 1),
+        //                30000 // teto de 30s
+        //            );
+        //            var delay = TimeSpan.FromMilliseconds(delayMs);
+
+        //            Trace.TraceWarning(
+        //                $"Step {st.StepNo} (Job {st.JobId}) erro transitório: {ex.Message}. " +
+        //                $"Tentativa {attempts}/{maxRetries}. Aguardando {delay.TotalSeconds:F1}s...");
+
+        //            System.Threading.Thread.Sleep(delay);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            // Exceção não-transiente ou qualquer outra falha no meio
+        //            lastException = ex;
+
+        //            var msg =
+        //                $"Step {st.StepNo} (Job {st.JobId}) falhou na tentativa {attempts} de {maxRetries}. " +
+        //                $"Erro: {ex.Message}";
+
+        //            Trace.TraceError($"{msg}{Environment.NewLine}{ex}");
+
+        //            errorMessage = msg;
+        //            return false;
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Método que realiza insert de histórico dos steps a serem processados
@@ -251,6 +333,7 @@ namespace ups_Business
         public static async Task<bool> RunJobSync(int jobId, int maxRetries, int retryDelaySec)
         {
             long runId = InsertRunHistory(jobId, "RUNNING", null);
+            string err;
             bool ok = false;
             string finalMsg = null;
 
@@ -259,10 +342,10 @@ namespace ups_Business
                 var steps = LoadSteps(jobId);
                 foreach (var st in steps)
                 {
-                    ok = ExecuteStepWithRetry(st, maxRetries, retryDelaySec);
+                    ok = ExecuteStepWithRetry(st, maxRetries: 3, retryDelaySec: 2, out err);
                     if (!ok)
                     {
-                        finalMsg = $"Falha no Step {st.StepNo} (StepId={st.StepId})";
+                        finalMsg = $"Falha no Step {st.StepNo} (StepId={st.StepId}) (erro: {err})";
                         break;
                     }
                 }
